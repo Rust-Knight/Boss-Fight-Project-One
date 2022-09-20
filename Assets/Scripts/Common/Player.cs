@@ -28,7 +28,11 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
+
+            
             TakeDamage(1);
+
+            
         }
         if (_currentHealth <= 0)
         {
@@ -50,10 +54,13 @@ public class Player : MonoBehaviour
     public void DecreaseHealth(int amount)
     {
         _currentHealth -= amount;
+        // _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth);
         Debug.Log("Player's health: " + _currentHealth);
-     
 
-       
+        
+
+
+
     }
 
     public void Kill()

@@ -10,10 +10,21 @@ public class BossAi : MonoBehaviour
     Transform target;
     NavMeshAgent agent;
 
-    void Start()
+    [SerializeField] int _bossMaxHealth = 20;
+    int _bossCurrentHealth;
+
+    public HealthBar bossHealthBar;
+
+
+    private void Start()
     {
         target = PlayerManager.instacne.player.transform;
         agent = GetComponent<NavMeshAgent>();
+
+        _bossCurrentHealth = _bossMaxHealth;
+        
+        bossHealthBar.SetMaxHealth(_bossMaxHealth);
+
     }
 
     // Update is called once per frame
@@ -26,6 +37,12 @@ public class BossAi : MonoBehaviour
             
             FaceTarget();
         }
+
+        if (_bossCurrentHealth <= 0)
+        {
+            bossKill();
+        }
+
     }
 
     void FaceTarget()
@@ -40,4 +57,39 @@ public class BossAi : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, lookRadious);
     }
+
+    public void DecreaseHealth(int amount)
+    {
+        _bossCurrentHealth -= amount;
+        Debug.Log("Boss health: " + _bossCurrentHealth);
+
+
+
+    }
+
+    void TakeDamage(int damage)
+    {
+        _bossCurrentHealth -= damage;
+
+        bossHealthBar.SetHealth(_bossCurrentHealth);
+
+
+    }
+    public void bossKill()
+    {
+        gameObject.SetActive(false);
+        // play particles 
+        // play sound
+    }
+    
+
+    private void OnTriggerEnter(Collider other) // take damage and destroy porjectile
+    {
+        if (other.CompareTag("Bullet"))
+        {
+            TakeDamage(1);
+            Destroy(other.gameObject);
+        }
+    }
+
 }
