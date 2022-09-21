@@ -27,12 +27,7 @@ public class Projectile : MonoBehaviour
 
 
         
-        /*if (Input.GetKeyDown("space"))
-        {
-            GameObject ballProjectile = Instantiate(projectile, transform.position,
-                                                    transform.rotation);
-            
-        }*/
+       
     }
 
    

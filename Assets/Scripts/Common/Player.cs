@@ -84,8 +84,18 @@ public class Player : MonoBehaviour
 
     }
 
-    public void slowPlayer()
+    private void OnTriggerEnter(Collider other) // take damage if collides with boss
     {
+        if (other.CompareTag("Boss"))
+        {
+            TakeDamage(1);
+            
+        }
+
+        if (other.CompareTag("BossBullet"))
+        {
+            TakeDamage(1);
+        }
 
     }
 }
