@@ -26,14 +26,7 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-
-            
-            TakeDamage(1);
-
-            
-        }
+        
         if (_currentHealth <= 0)
         {
             Kill();
