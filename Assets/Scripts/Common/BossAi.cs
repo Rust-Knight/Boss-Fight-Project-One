@@ -5,6 +5,10 @@ using UnityEngine.AI;
 
 public class BossAi : MonoBehaviour
 {
+    [SerializeField] AudioClip _bossTakingDamage;
+    [SerializeField] AudioClip _bossDeath;
+    [SerializeField] ParticleSystem _BossTakingDamageParticle = null;
+    [SerializeField] ParticleSystem _BossDeathParticle = null;
 
     public BossProjectileSpawnPoint bossPSP1, bossPSP2, bossPSP3, bossPSP4, bossPSP5;
 
@@ -63,6 +67,8 @@ public class BossAi : MonoBehaviour
         if (_bossCurrentHealth <= 0)
         {
             bossKill();
+            BossDeath();
+            
         }
 
     }
@@ -102,7 +108,7 @@ public class BossAi : MonoBehaviour
     public void bossKill()
     {
         gameObject.SetActive(false);
-        // play particles 
+        BossDeathParticle();
         // play sound
     }
     
@@ -113,6 +119,9 @@ public class BossAi : MonoBehaviour
         {
             TakeDamage(1);
             Destroy(other.gameObject);
+            BossTakingDamage();
+            BossTakingDamageParticle();
+            
         }
 
       
@@ -162,4 +171,35 @@ public class BossAi : MonoBehaviour
     {
         alreadyAttacked = false;
     }
+
+    private void BossTakingDamage()
+    {
+
+        // audio. TODO - consider Object Pooling for preformance
+        if (_bossTakingDamage != null)
+        {
+            AudioHelper.PlayClip2D(_bossTakingDamage, 1f);
+        }
+
+    }
+
+    private void BossDeath()
+    {
+        if (_bossDeath != null)
+        {
+            AudioHelper.PlayClip2D(_bossDeath, 1f);
+            BossDeathParticle();
+        }
+    }
+
+    private void BossTakingDamageParticle()
+    {
+        _BossTakingDamageParticle.Play();
+    }
+
+    private void BossDeathParticle()
+    {
+        _BossDeathParticle.Play();
+    }
+
 }

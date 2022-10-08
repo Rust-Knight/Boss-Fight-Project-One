@@ -21,6 +21,8 @@ public class Projectile : MonoBehaviour
                                                  (0, launchVelocity, 0));
 
         Destroy(gameObject, timeToDestroy);
+
+
     }
     void Update()
     {

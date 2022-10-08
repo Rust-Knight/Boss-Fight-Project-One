@@ -7,6 +7,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] int _maxHealth = 3;
+    [SerializeField] AudioClip _playerTakingDamage;
+    [SerializeField] ParticleSystem _playerTakingDamageParticle = null;
+    [SerializeField] AudioClip _playerDeath;
+
     int _currentHealth;
 
     public HealthBar healthBar;
@@ -51,16 +55,13 @@ public class Player : MonoBehaviour
         Debug.Log("Player's health: " + _currentHealth);
 
         
-
-
-
     }
 
     public void Kill()
     {
         gameObject.SetActive(false);
         // play particles 
-        // play sound
+        PlayerDeath();
     }
 
     public void addCoinPoints()
@@ -82,13 +83,41 @@ public class Player : MonoBehaviour
         if (other.CompareTag("Boss"))
         {
             TakeDamage(1);
-            
+            PlayerTakingDamage();
         }
 
         if (other.CompareTag("BossBullet"))
         {
             TakeDamage(1);
+            Destroy(other.gameObject);
+            PlayerTakingDamage();
+            PlayerTakingDamageParticle();
+
         }
 
     }
+
+    private void PlayerTakingDamage()
+    {
+
+        if (_playerTakingDamage != null)
+        {
+            AudioHelper.PlayClip2D(_playerTakingDamage, 1f);
+        }
+
+    }
+
+    private void PlayerTakingDamageParticle()
+    {
+        _playerTakingDamageParticle.Play();
+    }
+
+    private void PlayerDeath()
+    {
+        if (_playerTakingDamage != null)
+        {
+            AudioHelper.PlayClip2D(_playerDeath, 1f);
+        }
+    }
+
 }
